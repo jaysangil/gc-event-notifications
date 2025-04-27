@@ -65,22 +65,22 @@ async def listen(uri, user_id):
 # --- Orchestration ---
 
 def main():
-    # 5.1) Tell the SDK which region to hit
+    #  Tell the SDK which region to hit
     PureCloudPlatformClientV2.configuration.host = f"https://api.{ENVIRONMENT}"
 
-    # 5.2) Authenticate and get a ready-to-go ApiClient
+    #  Authenticate and get a ready-to-go ApiClient
     api_client = PureCloudPlatformClientV2.ApiClient() \
         .get_client_credentials_token(CLIENT_ID, CLIENT_SECRET)
 
-    # 5.3) Spin up the Notifications API
+    #  Spin up the Notifications API
     notifications_api = PureCloudPlatformClientV2.NotificationsApi(api_client)
 
-    # 5.4) Create channel & subscribe
+    #  Create channel & subscribe
     channel = create_notifications_channel(notifications_api)
     uri, channel_id = channel.connect_uri, channel.id
     subscribe_to_topic(USER_ID, channel_id, notifications_api)
 
-    # 5.5) Start listening
+    #  Start listening
     asyncio.get_event_loop().run_until_complete(listen(uri, USER_ID))
 
 
